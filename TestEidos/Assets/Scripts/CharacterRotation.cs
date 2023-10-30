@@ -15,14 +15,22 @@ public class CharacterRotation : MonoBehaviour
 
     public Transform Eye => _leftEye;
     public Transform Head => _head;
-    public Transform Body => _body; 
+    public Transform Body => _body;
+    public float RotationSpeed => _rotationSpeed;
 
     public void LoadRotatePosition(GameData.CharacterSaveDataRotation player)
     {
-        _leftEye.rotation = Quaternion.Euler(player.eye.x, player.eye.y, player.eye.z);
-        _rightEye.rotation = Quaternion.Euler(player.eye.x, player.eye.y, player.eye.z);
-        _head.rotation = Quaternion.Euler(player.head.x, player.head.y, player.head.z);
-        _body.rotation = Quaternion.Euler(player.body.x, player.body.y, player.body.z);
+        if (_leftEye != null)
+            _leftEye.rotation = new Quaternion(player.eye.x, player.eye.y, player.eye.z, 0);
+
+        if (_rightEye != null)
+            _rightEye.rotation = new Quaternion(player.eye.x, player.eye.y, player.eye.z, 0);
+
+        if (_head != null)
+            _head.rotation = new Quaternion(player.head.x, player.head.y, player.head.z, 0);
+
+        if (_body != null)
+            _body.rotation = new Quaternion(player.body.x, player.body.y, player.body.z, 0);
     }
 
     private void Update()

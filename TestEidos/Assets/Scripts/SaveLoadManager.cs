@@ -7,8 +7,10 @@ public class SaveLoadManager : MonoBehaviour
 {
     [SerializeField] private CharacterRotation _player;
     [SerializeField] private ColorChanger _playerColor;
+    [SerializeField] private CharacterReturn _characterReturn;
     [SerializeField] private Button _saveBtn;
     [SerializeField] private Button _loadBtn;
+    [SerializeField] private Button _OnOffTrackingBtn;
 
     private string _filePath;
 
@@ -18,6 +20,7 @@ public class SaveLoadManager : MonoBehaviour
 
         _saveBtn.onClick.AddListener(SaveGame);
         _loadBtn.onClick.AddListener(LoadGame);
+        _OnOffTrackingBtn.onClick.AddListener(CharacterReturn);
     }
 
     private void Update()
@@ -53,8 +56,22 @@ public class SaveLoadManager : MonoBehaviour
         GameData data = (GameData)binaryFormatter.Deserialize(fileStream);
         fileStream.Close();
 
-        _player.LoadRotatePosition(data.playerRotation);
-        _playerColor.LoadColor(data.playerColor);
+        _player?.LoadRotatePosition(data.playerRotation);
+        _playerColor?.LoadColor(data.playerColor);
+    }
+
+    private void CharacterReturn()
+    {
+        if (!File.Exists(_filePath))
+            return;
+
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        FileStream fileStream = new FileStream(_filePath, FileMode.Open);
+
+        GameData data = (GameData)binaryFormatter.Deserialize(fileStream);
+        fileStream.Close();
+
+        _characterReturn.ReturnToSavePosition(data.playerRotation);
     }
 
     private void OnDestroy()

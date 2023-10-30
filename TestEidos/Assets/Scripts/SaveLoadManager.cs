@@ -30,6 +30,9 @@ public class SaveLoadManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.L))
             LoadGame();
+
+        if (Input.GetKey(KeyCode.O))
+            CharacterReturn();
     }
 
     private void SaveGame()
